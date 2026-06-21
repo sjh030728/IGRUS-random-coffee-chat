@@ -5,124 +5,147 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IGRUS 랜덤 커피챗 매칭기</title>
     <style>
-        /* 🎨 IGRUS 맞춤형 테마 (인하 블루 & 다크 모드) */
+        /* 🎨 IGRUS 오피셜 라이트 테마 (White & Mint Green) */
         :root {
-            --inha-blue: #0B3B60; /* 인하대학교 상징색 느낌의 딥블루 */
-            --point-blue: #2563EB; /* 강조용 쨍한 파란색 */
-            --bg-dark: #0f172a;
-            --card-dark: #1e293b;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
+            --igrus-mint: #00B894; /* 홈페이지의 상큼한 민트색 */
+            --igrus-mint-hover: #009e7f;
+            --bg-light: #F8F9FA;
+            --card-white: #FFFFFF;
+            --text-dark: #212529;
+            --text-gray: #6c757d;
+            --border-light: #e9ecef;
         }
 
         body {
             margin: 0;
             padding: 0;
             font-family: 'Pretendard', -apple-system, sans-serif;
-            background: var(--bg-dark);
-            color: var(--text-main);
+            background-color: var(--bg-light);
+            /* 홈페이지 특유의 은은한 배경 느낌을 위한 아주 연한 그라데이션 */
+            background-image: radial-gradient(circle at top right, rgba(0, 184, 148, 0.05), transparent 40%),
+                              radial-gradient(circle at bottom left, rgba(108, 92, 231, 0.05), transparent 40%);
+            color: var(--text-dark);
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            /* 배경 상단에 은은한 푸른빛 그라데이션 조명 효과 */
-            background-image: radial-gradient(circle at 50% 0%, #1e3a8a 0%, transparent 50%);
         }
 
         h1 {
-            margin-top: 60px;
-            font-size: 2.5rem;
+            margin-top: 50px;
+            font-size: 2.8rem;
             font-weight: 800;
             letter-spacing: -1px;
-            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            color: var(--text-dark);
         }
 
         h1 span {
-            color: #60a5fa; /* 밝은 하늘색 포인트 */
+            color: var(--igrus-mint);
         }
 
-        /* 📝 입력 폼 섹션 (반투명 유리 효과) */
+        /* 📝 입력 폼 섹션 (클린 & 플랫 디자인) */
         .input-section {
-            background: rgba(30, 41, 59, 0.6);
-            padding: 30px;
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(12px);
+            background: var(--card-white);
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+            border: 1px solid var(--border-light);
             width: 90%;
-            max-width: 550px;
+            max-width: 600px;
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
 
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
         label {
             font-size: 1.05rem;
-            font-weight: 600;
+            font-weight: 700;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .label-desc {
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: var(--text-gray);
         }
 
         textarea {
             width: 100%;
-            height: 110px;
-            border-radius: 10px;
-            border: 1px solid #334155;
-            background: rgba(15, 23, 42, 0.6);
-            color: var(--text-main);
+            height: 90px;
+            border-radius: 12px;
+            border: 1px solid #ced4da;
+            background: #ffffff;
+            color: var(--text-dark);
             padding: 15px;
             font-size: 1rem;
             line-height: 1.5;
             resize: none;
             box-sizing: border-box;
-            transition: border-color 0.3s;
+            transition: all 0.3s ease;
         }
 
         textarea:focus {
             outline: none;
-            border-color: var(--point-blue);
+            border-color: var(--igrus-mint);
+            box-shadow: 0 0 0 4px rgba(0, 184, 148, 0.1);
         }
 
         textarea::placeholder {
-            color: var(--text-muted);
+            color: #adb5bd;
         }
 
         .controls {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-top: 10px;
+            padding-top: 20px;
+            border-top: 1px dashed var(--border-light);
         }
 
         .controls select {
-            padding: 12px;
+            padding: 12px 15px;
             border-radius: 10px;
-            background: var(--card-dark);
-            color: var(--text-main);
-            border: 1px solid #334155;
+            background: var(--card-white);
+            color: var(--text-dark);
+            border: 1px solid #ced4da;
             font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
             outline: none;
+            transition: border-color 0.2s;
         }
 
         .controls select:focus {
-            border-color: var(--point-blue);
+            border-color: var(--igrus-mint);
         }
 
         button {
-            padding: 12px 28px;
-            background: var(--point-blue);
+            padding: 14px 30px;
+            background: var(--igrus-mint);
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 1.1rem;
-            font-weight: bold;
+            font-weight: 800;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+            box-shadow: 0 4px 15px rgba(0, 184, 148, 0.3);
             transition: all 0.2s ease-in-out;
         }
 
         button:hover {
-            background: #1d4ed8;
+            background: var(--igrus-mint-hover);
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
+            box-shadow: 0 6px 20px rgba(0, 184, 148, 0.4);
         }
 
         button:active {
@@ -137,14 +160,14 @@
             gap: 25px;
             margin: 50px 0;
             width: 90%;
-            max-width: 1000px;
+            max-width: 1100px;
         }
 
         /* 🌀 3D 카드 뒤집기 애니메이션 코어 */
         .group-card {
             background: transparent;
-            width: 220px;
-            height: 300px;
+            width: 240px;
+            height: 320px;
             perspective: 1000px;
         }
 
@@ -153,7 +176,6 @@
             width: 100%;
             height: 100%;
             text-align: center;
-            /* 애니메이션에 탄성(cubic-bezier)을 줘서 찰지게 뒤집힘 */
             transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
             transform-style: preserve-3d;
         }
@@ -167,72 +189,102 @@
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
-            border-radius: 16px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-light);
+            background: var(--card-white);
+        }
+
+        .card-front {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-        }
-
-        .card-front {
-            /* 인하 블루 -> 쨍한 블루 그라데이션 */
-            background: linear-gradient(135deg, var(--inha-blue), var(--point-blue));
+            background: linear-gradient(135deg, #ffffff, #f1fcf9);
+            color: var(--igrus-mint);
             font-size: 4rem;
-            border: 1px solid rgba(255,255,255,0.1);
         }
 
         .card-front::after {
-            content: 'IGRUS';
-            font-size: 1.2rem;
+            content: 'COFFEE CHAT';
+            font-size: 1.1rem;
             font-weight: 800;
             margin-top: 15px;
-            letter-spacing: 2px;
-            color: rgba(255,255,255,0.8);
+            letter-spacing: 1px;
+            color: var(--text-dark);
         }
 
         .card-back {
-            background: var(--card-dark);
             transform: rotateY(180deg);
-            padding: 20px;
+            padding: 25px 20px;
             box-sizing: border-box;
-            border: 2px solid var(--point-blue);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .card-back h3 {
-            margin: 0 0 20px 0;
-            color: #60a5fa;
-            font-size: 1.4rem;
+            margin: 0 0 15px 0;
+            color: var(--igrus-mint);
+            font-size: 1.5rem;
             font-weight: 800;
-            border-bottom: 2px solid rgba(96, 165, 250, 0.3);
+            border-bottom: 2px solid rgba(0, 184, 148, 0.2);
             padding-bottom: 12px;
             width: 100%;
         }
 
-        .card-back p {
-            margin: 8px 0;
-            font-size: 1.15rem;
-            font-weight: 500;
-            line-height: 1.4;
-            color: var(--text-main);
+        .member-list {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            text-align: left;
+        }
+
+        .member-item {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            background: var(--bg-light);
+            padding: 8px 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .role-badge {
+            font-size: 0.75rem;
+            font-weight: 700;
+            background: var(--igrus-mint);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
         }
     </style>
 </head>
 <body>
 
-    <h1><span>IGRUS</span> 커피챗 매칭기</h1>
+    <h1>성장과 낭만의 동아리, <span>IGRUS.</span></h1>
 
     <div class="input-section">
-        <label>👥 매칭할 멤버 이름 입력 (쉼표 또는 띄어쓰기)</label>
-        <textarea id="nameInput" placeholder="예: 김동아리, 이개발, 박해커, 최프론트, 정백엔드"></textarea>
+        <div class="input-group">
+            <label>👑 운영진 명단 <span class="label-desc">(조마다 흩어지게 배치됩니다)</span></label>
+            <textarea id="execInput" placeholder="예: 김회장, 이부회장, 박총무"></textarea>
+        </div>
+
+        <div class="input-group">
+            <label>👤 일반 부원 명단</label>
+            <textarea id="memberInput" placeholder="예: 김동아리, 최개발, 정프론트, 강백엔드, 조디자인"></textarea>
+        </div>
         
         <div class="controls">
             <div>
-                <label style="margin-right: 10px; font-size: 0.95rem; color: #94a3b8;">조당 인원</label>
+                <label style="display: inline-block; margin-right: 10px; font-size: 0.95rem; color: var(--text-gray);">목표 조당 인원</label>
                 <select id="groupSize">
                     <option value="2">2명</option>
-                    <option value="3" selected>3명</option>
-                    <option value="4">4명</option>
+                    <option value="3">3명</option>
+                    <option value="4" selected>4명</option>
                     <option value="5">5명</option>
                 </select>
             </div>
@@ -244,6 +296,7 @@
         </div>
 
     <script>
+        // 배열을 무작위로 섞는 함수
         function shuffle(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -253,31 +306,63 @@
         }
 
         function startMatching() {
-            const input = document.getElementById('nameInput').value;
-            const size = parseInt(document.getElementById('groupSize').value);
+            const execInput = document.getElementById('execInput').value;
+            const memberInput = document.getElementById('memberInput').value;
+            const targetSize = parseInt(document.getElementById('groupSize').value);
             const container = document.getElementById('resultContainer');
             
             container.innerHTML = '';
 
-            let names = input.split(/[\s,]+/).filter(name => name.trim() !== '');
+            // 쉼표나 띄어쓰기로 이름 분리 및 빈칸 제거
+            let execs = execInput.split(/[\s,]+/).filter(name => name.trim() !== '');
+            let members = memberInput.split(/[\s,]+/).filter(name => name.trim() !== '');
 
-            if (names.length === 0) {
-                alert("멤버 이름을 먼저 입력해주세요!");
+            const totalPeople = execs.length + members.length;
+
+            if (totalPeople === 0) {
+                alert("매칭할 멤버의 이름을 입력해주세요!");
                 return;
             }
 
-            names = shuffle(names);
+            // 각 배열을 무작위로 섞음
+            execs = shuffle(execs);
+            members = shuffle(members);
 
-            const groups = [];
-            for (let i = 0; i < names.length; i += size) {
-                groups.push(names.slice(i, i + size));
-            }
+            // 전체 인원 대비 생성해야 할 조의 개수 계산 (올림 처리)
+            const numGroups = Math.ceil(totalPeople / targetSize) || 1;
+            
+            // 조 배열 초기화
+            const groups = Array.from({ length: numGroups }, () => []);
 
+            let currentGroupIdx = 0;
+
+            // 1. 운영진을 먼저 각 조에 하나씩 분배 (라운드 로빈)
+            execs.forEach(exec => {
+                groups[currentGroupIdx].push({ name: exec, role: 'exec' });
+                currentGroupIdx = (currentGroupIdx + 1) % numGroups;
+            });
+
+            // 2. 남은 자리에 일반 부원을 이어서 분배
+            members.forEach(member => {
+                groups[currentGroupIdx].push({ name: member, role: 'member' });
+                currentGroupIdx = (currentGroupIdx + 1) % numGroups;
+            });
+
+            // 화면에 카드 그리기
             groups.forEach((group, index) => {
+                if (group.length === 0) return; // 빈 조는 무시
+
                 const card = document.createElement('div');
                 card.className = 'group-card';
                 
-                const membersHtml = group.map(name => `<p>👤 ${name}</p>`).join('');
+                // 멤버 리스트 HTML 생성 (운영진은 뱃지 추가)
+                const membersHtml = group.map(person => {
+                    if (person.role === 'exec') {
+                        return `<div class="member-item"><span>${person.name}</span> <span class="role-badge">운영진</span></div>`;
+                    } else {
+                        return `<div class="member-item"><span>${person.name}</span></div>`;
+                    }
+                }).join('');
 
                 card.innerHTML = `
                     <div class="card-inner">
@@ -285,8 +370,10 @@
                             ☕
                         </div>
                         <div class="card-back">
-                            <h3>${index + 1}조</h3>
-                            ${membersHtml}
+                            <h3>Team ${index + 1}</h3>
+                            <div class="member-list">
+                                ${membersHtml}
+                            </div>
                         </div>
                     </div>
                 `;
@@ -296,7 +383,7 @@
                 // 카드가 왼쪽부터 오른쪽으로 약간의 시차를 두고 촤르륵 뒤집히는 효과
                 setTimeout(() => {
                     card.classList.add('flipped');
-                }, 300 + (index * 250));
+                }, 100 + (index * 200));
             });
         }
     </script>
