@@ -5,54 +5,84 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IGRUS 랜덤 커피챗 매칭기</title>
     <style>
-        /* 🎨 기본 스타일 (다크 모드 감성) */
+        /* 🎨 IGRUS 맞춤형 테마 (인하 블루 & 다크 모드) */
+        :root {
+            --inha-blue: #0B3B60; /* 인하대학교 상징색 느낌의 딥블루 */
+            --point-blue: #2563EB; /* 강조용 쨍한 파란색 */
+            --bg-dark: #0f172a;
+            --card-dark: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
         body {
             margin: 0;
             padding: 0;
             font-family: 'Pretendard', -apple-system, sans-serif;
-            background: linear-gradient(135deg, #1e1e2f, #2d2b42);
-            color: white;
+            background: var(--bg-dark);
+            color: var(--text-main);
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
+            /* 배경 상단에 은은한 푸른빛 그라데이션 조명 효과 */
+            background-image: radial-gradient(circle at 50% 0%, #1e3a8a 0%, transparent 50%);
         }
 
         h1 {
-            margin-top: 50px;
+            margin-top: 60px;
             font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
             text-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
 
-        /* 📝 입력 폼 섹션 */
+        h1 span {
+            color: #60a5fa; /* 밝은 하늘색 포인트 */
+        }
+
+        /* 📝 입력 폼 섹션 (반투명 유리 효과) */
         .input-section {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(30, 41, 59, 0.6);
             padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(12px);
             width: 90%;
-            max-width: 500px;
+            max-width: 550px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
+        }
+
+        label {
+            font-size: 1.05rem;
+            font-weight: 600;
         }
 
         textarea {
             width: 100%;
-            height: 100px;
-            border-radius: 8px;
-            border: 1px solid #6c5ce7;
-            background: rgba(0, 0, 0, 0.2);
-            color: white;
-            padding: 10px;
+            height: 110px;
+            border-radius: 10px;
+            border: 1px solid #334155;
+            background: rgba(15, 23, 42, 0.6);
+            color: var(--text-main);
+            padding: 15px;
             font-size: 1rem;
+            line-height: 1.5;
             resize: none;
             box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--point-blue);
         }
 
         textarea::placeholder {
-            color: #a0a0a0;
+            color: var(--text-muted);
         }
 
         .controls {
@@ -61,31 +91,42 @@
             align-items: center;
         }
 
-        select {
-            padding: 10px;
-            border-radius: 8px;
-            background: #2d2b42;
-            color: white;
-            border: 1px solid #6c5ce7;
+        .controls select {
+            padding: 12px;
+            border-radius: 10px;
+            background: var(--card-dark);
+            color: var(--text-main);
+            border: 1px solid #334155;
             font-size: 1rem;
             cursor: pointer;
+            outline: none;
+        }
+
+        .controls select:focus {
+            border-color: var(--point-blue);
         }
 
         button {
-            padding: 12px 25px;
-            background: #6c5ce7;
+            padding: 12px 28px;
+            background: var(--point-blue);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 1.1rem;
             font-weight: bold;
             cursor: pointer;
-            transition: transform 0.2s, background 0.2s;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+            transition: all 0.2s ease-in-out;
         }
 
         button:hover {
-            background: #a29bfe;
+            background: #1d4ed8;
             transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
+        }
+
+        button:active {
+            transform: translateY(0);
         }
 
         /* 🃏 카드 결과 섹션 */
@@ -93,8 +134,8 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 20px;
-            margin: 40px 0;
+            gap: 25px;
+            margin: 50px 0;
             width: 90%;
             max-width: 1000px;
         }
@@ -103,8 +144,8 @@
         .group-card {
             background: transparent;
             width: 220px;
-            height: 280px;
-            perspective: 1000px; /* 3D 효과 부여 */
+            height: 300px;
+            perspective: 1000px;
         }
 
         .card-inner {
@@ -112,7 +153,8 @@
             width: 100%;
             height: 100%;
             text-align: center;
-            transition: transform 0.8s;
+            /* 애니메이션에 탄성(cubic-bezier)을 줘서 찰지게 뒤집힘 */
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
             transform-style: preserve-3d;
         }
 
@@ -125,58 +167,73 @@
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
-            border-radius: 15px;
+            border-radius: 16px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
         }
 
         .card-front {
-            background: linear-gradient(45deg, #6c5ce7, #0984e3);
-            font-size: 3rem;
+            /* 인하 블루 -> 쨍한 블루 그라데이션 */
+            background: linear-gradient(135deg, var(--inha-blue), var(--point-blue));
+            font-size: 4rem;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .card-front::after {
+            content: 'IGRUS';
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-top: 15px;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.8);
         }
 
         .card-back {
-            background: #2d3436;
+            background: var(--card-dark);
             transform: rotateY(180deg);
-            padding: 15px;
+            padding: 20px;
             box-sizing: border-box;
-            border: 2px solid #6c5ce7;
+            border: 2px solid var(--point-blue);
         }
 
         .card-back h3 {
-            margin: 0 0 15px 0;
-            color: #fdcb6e;
-            font-size: 1.3rem;
-            border-bottom: 1px solid #555;
-            padding-bottom: 10px;
+            margin: 0 0 20px 0;
+            color: #60a5fa;
+            font-size: 1.4rem;
+            font-weight: 800;
+            border-bottom: 2px solid rgba(96, 165, 250, 0.3);
+            padding-bottom: 12px;
             width: 100%;
         }
 
         .card-back p {
-            margin: 5px 0;
-            font-size: 1.1rem;
-            line-height: 1.5;
+            margin: 8px 0;
+            font-size: 1.15rem;
+            font-weight: 500;
+            line-height: 1.4;
+            color: var(--text-main);
         }
     </style>
 </head>
 <body>
 
-    <h1>☕ IGRUS 커피챗 매칭기</h1>
+    <h1><span>IGRUS</span> 커피챗 매칭기</h1>
 
     <div class="input-section">
-        <label>👥 동아리원 이름 입력 (쉼표 또는 띄어쓰기로 구분)</label>
-        <textarea id="nameInput" placeholder="예: 김코딩, 이개발, 박해커, 최프론트, 정백엔드"></textarea>
+        <label>👥 매칭할 멤버 이름 입력 (쉼표 또는 띄어쓰기)</label>
+        <textarea id="nameInput" placeholder="예: 김동아리, 이개발, 박해커, 최프론트, 정백엔드"></textarea>
         
         <div class="controls">
             <div>
-                <label>조당 인원: </label>
+                <label style="margin-right: 10px; font-size: 0.95rem; color: #94a3b8;">조당 인원</label>
                 <select id="groupSize">
                     <option value="2">2명</option>
                     <option value="3" selected>3명</option>
                     <option value="4">4명</option>
+                    <option value="5">5명</option>
                 </select>
             </div>
             <button onclick="startMatching()">매칭 시작 🎲</button>
@@ -187,7 +244,6 @@
         </div>
 
     <script>
-        // 배열을 무작위로 섞는 함수 (피셔-예이츠 셔플 알고리즘)
         function shuffle(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -201,29 +257,23 @@
             const size = parseInt(document.getElementById('groupSize').value);
             const container = document.getElementById('resultContainer');
             
-            // 컨테이너 초기화
             container.innerHTML = '';
 
-            // 입력값 다듬기 (쉼표, 엔터, 띄어쓰기 기준으로 나누고 빈 칸 제거)
             let names = input.split(/[\s,]+/).filter(name => name.trim() !== '');
 
             if (names.length === 0) {
-                alert("이름을 입력해주세요!");
+                alert("멤버 이름을 먼저 입력해주세요!");
                 return;
             }
 
-            // 배열 섞기!
             names = shuffle(names);
 
-            // 조 나누기 로직
             const groups = [];
             for (let i = 0; i < names.length; i += size) {
                 groups.push(names.slice(i, i + size));
             }
 
-            // 화면에 카드 그리기
             groups.forEach((group, index) => {
-                // 카드 HTML 구조 생성
                 const card = document.createElement('div');
                 card.className = 'group-card';
                 
@@ -232,7 +282,7 @@
                 card.innerHTML = `
                     <div class="card-inner">
                         <div class="card-front">
-                            ❓
+                            ☕
                         </div>
                         <div class="card-back">
                             <h3>${index + 1}조</h3>
@@ -243,10 +293,10 @@
 
                 container.appendChild(card);
 
-                // 긴장감을 위해 0.3초 간격으로 순서대로 카드가 뒤집어지는 효과
+                // 카드가 왼쪽부터 오른쪽으로 약간의 시차를 두고 촤르륵 뒤집히는 효과
                 setTimeout(() => {
                     card.classList.add('flipped');
-                }, 300 + (index * 300));
+                }, 300 + (index * 250));
             });
         }
     </script>
