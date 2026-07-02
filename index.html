@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IGRUS 랜덤 커피챗 매칭기</title>
     <style>
-        /* 🎨 IGRUS 오피셜 라이트 테마 (White & Mint Green) */
+        /* 🎨 IGRUS 라이트 테마 (White & Mint Green) */
         :root {
-            --igrus-mint: #00B894; /* 홈페이지의 상큼한 민트색 */
+            --igrus-mint: #00B894; 
             --igrus-mint-hover: #009e7f;
             --bg-light: #F8F9FA;
             --card-white: #FFFFFF;
@@ -21,7 +21,6 @@
             padding: 0;
             font-family: 'Pretendard', -apple-system, sans-serif;
             background-color: var(--bg-light);
-            /* 홈페이지 특유의 은은한 배경 느낌을 위한 아주 연한 그라데이션 */
             background-image: radial-gradient(circle at top right, rgba(0, 184, 148, 0.05), transparent 40%),
                               radial-gradient(circle at bottom left, rgba(108, 92, 231, 0.05), transparent 40%);
             color: var(--text-dark);
@@ -43,7 +42,7 @@
             color: var(--igrus-mint);
         }
 
-        /* 📝 입력 폼 섹션 (클린 & 플랫 디자인) */
+        /* 📝 입력 폼 섹션 */
         .input-section {
             background: var(--card-white);
             padding: 35px;
@@ -148,10 +147,6 @@
             box-shadow: 0 6px 20px rgba(0, 184, 148, 0.4);
         }
 
-        button:active {
-            transform: translateY(0);
-        }
-
         /* 🃏 카드 결과 섹션 */
         .result-container {
             display: flex;
@@ -163,7 +158,7 @@
             max-width: 1100px;
         }
 
-        /* 🌀 3D 카드 뒤집기 애니메이션 코어 */
+        /* 🌀 3D 카드 애니메이션 */
         .group-card {
             background: transparent;
             width: 240px;
@@ -206,7 +201,7 @@
         }
 
         .card-front::after {
-            content: 'COFFEE CHAT';
+            content: 'MENTORING';
             font-size: 1.1rem;
             font-weight: 800;
             margin-top: 15px;
@@ -269,13 +264,13 @@
 
     <div class="input-section">
         <div class="input-group">
-            <label>👑 운영진 명단 <span class="label-desc">(조마다 흩어지게 배치됩니다)</span></label>
-            <textarea id="execInput" placeholder="예: 김회장, 이부회장, 박총무"></textarea>
+            <label>👨‍🏫 멘토 명단 <span class="label-desc">(조마다 흩어지게 배치됩니다)</span></label>
+            <textarea id="mentorInput" placeholder="예: 김멘토, 이멘토, 박멘토"></textarea>
         </div>
 
         <div class="input-group">
-            <label>👤 일반 부원 명단</label>
-            <textarea id="memberInput" placeholder="예: 김동아리, 최개발, 정프론트, 강백엔드, 조디자인"></textarea>
+            <label>👶 멘티 명단</label>
+            <textarea id="menteeInput" placeholder="예: 김멘티, 최멘티, 정멘티, 강멘티, 조멘티"></textarea>
         </div>
         
         <div class="controls">
@@ -296,7 +291,6 @@
         </div>
 
     <script>
-        // 배열을 무작위로 섞는 함수
         function shuffle(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -306,59 +300,55 @@
         }
 
         function startMatching() {
-            const execInput = document.getElementById('execInput').value;
-            const memberInput = document.getElementById('memberInput').value;
+            const mentorInput = document.getElementById('mentorInput').value;
+            const menteeInput = document.getElementById('menteeInput').value;
             const targetSize = parseInt(document.getElementById('groupSize').value);
             const container = document.getElementById('resultContainer');
             
             container.innerHTML = '';
 
-            // 쉼표나 띄어쓰기로 이름 분리 및 빈칸 제거
-            let execs = execInput.split(/[\s,]+/).filter(name => name.trim() !== '');
-            let members = memberInput.split(/[\s,]+/).filter(name => name.trim() !== '');
+            let mentors = mentorInput.split(/[\s,]+/).filter(name => name.trim() !== '');
+            let mentees = menteeInput.split(/[\s,]+/).filter(name => name.trim() !== '');
 
-            const totalPeople = execs.length + members.length;
+            const totalPeople = mentors.length + mentees.length;
 
             if (totalPeople === 0) {
                 alert("매칭할 멤버의 이름을 입력해주세요!");
                 return;
             }
 
-            // 각 배열을 무작위로 섞음
-            execs = shuffle(execs);
-            members = shuffle(members);
+            mentors = shuffle(mentors);
+            mentees = shuffle(mentees);
 
-            // 전체 인원 대비 생성해야 할 조의 개수 계산 (올림 처리)
+            // 전체 인원 대비 생성해야 할 조의 개수 계산
             const numGroups = Math.ceil(totalPeople / targetSize) || 1;
-            
-            // 조 배열 초기화
             const groups = Array.from({ length: numGroups }, () => []);
 
             let currentGroupIdx = 0;
 
-            // 1. 운영진을 먼저 각 조에 하나씩 분배 (라운드 로빈)
-            execs.forEach(exec => {
-                groups[currentGroupIdx].push({ name: exec, role: 'exec' });
+            // 1. 멘토를 먼저 각 조에 하나씩 분배 (라운드 로빈)
+            mentors.forEach(mentor => {
+                groups[currentGroupIdx].push({ name: mentor, role: 'mentor' });
                 currentGroupIdx = (currentGroupIdx + 1) % numGroups;
             });
 
-            // 2. 남은 자리에 일반 부원을 이어서 분배
-            members.forEach(member => {
-                groups[currentGroupIdx].push({ name: member, role: 'member' });
+            // 2. 남은 자리에 멘티를 이어서 분배
+            mentees.forEach(mentee => {
+                groups[currentGroupIdx].push({ name: mentee, role: 'mentee' });
                 currentGroupIdx = (currentGroupIdx + 1) % numGroups;
             });
 
             // 화면에 카드 그리기
             groups.forEach((group, index) => {
-                if (group.length === 0) return; // 빈 조는 무시
+                if (group.length === 0) return;
 
                 const card = document.createElement('div');
                 card.className = 'group-card';
                 
-                // 멤버 리스트 HTML 생성 (운영진은 뱃지 추가)
+                // 멤버 리스트 HTML 생성 (멘토는 별도 뱃지 추가)
                 const membersHtml = group.map(person => {
-                    if (person.role === 'exec') {
-                        return `<div class="member-item"><span>${person.name}</span> <span class="role-badge">운영진</span></div>`;
+                    if (person.role === 'mentor') {
+                        return `<div class="member-item"><span>${person.name}</span> <span class="role-badge">멘토</span></div>`;
                     } else {
                         return `<div class="member-item"><span>${person.name}</span></div>`;
                     }
@@ -380,7 +370,6 @@
 
                 container.appendChild(card);
 
-                // 카드가 왼쪽부터 오른쪽으로 약간의 시차를 두고 촤르륵 뒤집히는 효과
                 setTimeout(() => {
                     card.classList.add('flipped');
                 }, 100 + (index * 200));
