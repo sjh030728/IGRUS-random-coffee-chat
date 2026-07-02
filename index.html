@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IGRUS 랜덤 커피챗 매칭기</title>
+    <title>IGRUS 커피챗 매칭기 ☕</title>
     <style>
         /* 🎨 IGRUS 라이트 테마 (White & Mint Green) */
         :root {
@@ -21,8 +21,8 @@
             padding: 0;
             font-family: 'Pretendard', -apple-system, sans-serif;
             background-color: var(--bg-light);
-            background-image: radial-gradient(circle at top right, rgba(0, 184, 148, 0.05), transparent 40%),
-                              radial-gradient(circle at bottom left, rgba(108, 92, 231, 0.05), transparent 40%);
+            background-image: radial-gradient(circle at top right, rgba(0, 184, 148, 0.06), transparent 45%),
+                              radial-gradient(circle at bottom left, rgba(108, 92, 231, 0.04), transparent 45%);
             color: var(--text-dark);
             display: flex;
             flex-direction: column;
@@ -36,10 +36,19 @@
             font-weight: 800;
             letter-spacing: -1px;
             color: var(--text-dark);
+            text-align: center;
         }
 
         h1 span {
             color: var(--igrus-mint);
+        }
+
+        .subtitle {
+            margin-top: -15px;
+            margin-bottom: 35px;
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            font-weight: 500;
         }
 
         /* 📝 입력 폼 섹션 */
@@ -53,7 +62,7 @@
             max-width: 600px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 22px;
         }
 
         .input-group {
@@ -63,12 +72,12 @@
         }
 
         label {
-            font-size: 1.05rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: var(--text-dark);
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
         }
 
         .label-desc {
@@ -79,7 +88,7 @@
 
         textarea {
             width: 100%;
-            height: 90px;
+            height: 95px;
             border-radius: 12px;
             border: 1px solid #ced4da;
             background: #ffffff;
@@ -197,15 +206,15 @@
             align-items: center;
             background: linear-gradient(135deg, #ffffff, #f1fcf9);
             color: var(--igrus-mint);
-            font-size: 4rem;
+            font-size: 4.2rem;
         }
 
         .card-front::after {
-            content: 'MENTORING';
-            font-size: 1.1rem;
+            content: 'COFFEE CHAT';
+            font-size: 1rem;
             font-weight: 800;
             margin-top: 15px;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             color: var(--text-dark);
         }
 
@@ -221,7 +230,7 @@
         .card-back h3 {
             margin: 0 0 15px 0;
             color: var(--igrus-mint);
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 800;
             border-bottom: 2px solid rgba(0, 184, 148, 0.2);
             padding-bottom: 12px;
@@ -251,31 +260,33 @@
         .role-badge {
             font-size: 0.75rem;
             font-weight: 700;
-            background: var(--igrus-mint);
-            color: white;
-            padding: 3px 8px;
-            border-radius: 12px;
+            background: #E8F8F5;
+            color: var(--igrus-mint);
+            border: 1px solid rgba(0, 184, 148, 0.3);
+            padding: 2px 7px;
+            border-radius: 6px;
         }
     </style>
 </head>
 <body>
 
     <h1>성장과 낭만의 동아리, <span>IGRUS.</span></h1>
+    <div class="subtitle">따뜻한 커피 한 잔과 함께하는 랜덤 커피챗 ☕</div>
 
     <div class="input-section">
         <div class="input-group">
-            <label>👨‍🏫 멘토 명단 <span class="label-desc">(조마다 흩어지게 배치됩니다)</span></label>
-            <textarea id="mentorInput" placeholder="예: 김멘토, 이멘토, 박멘토"></textarea>
+            <label>☕ 선배 명단 <span class="label-desc">(조마다 한 명씩 든든하게 배치됩니다)</span></label>
+            <textarea id="seniorInput" placeholder="예: 김선배, 이학번, 박고참"></textarea>
         </div>
 
         <div class="input-group">
-            <label>👶 멘티 명단</label>
-            <textarea id="menteeInput" placeholder="예: 김멘티, 최멘티, 정멘티, 강멘티, 조멘티"></textarea>
+            <label>🌱 후배 명단 <span class="label-desc">(가벼운 마음으로 수다 떨러 온 부원)</span></label>
+            <textarea id="juniorInput" placeholder="예: 김새내기, 최부원, 정신입, 강뉴비"></textarea>
         </div>
         
         <div class="controls">
             <div>
-                <label style="display: inline-block; margin-right: 10px; font-size: 0.95rem; color: var(--text-gray);">목표 조당 인원</label>
+                <label style="display: inline-block; margin-right: 10px; font-size: 0.95rem; color: var(--text-gray);">테이블당 목표 인원</label>
                 <select id="groupSize">
                     <option value="2">2명</option>
                     <option value="3">3명</option>
@@ -283,7 +294,7 @@
                     <option value="5">5명</option>
                 </select>
             </div>
-            <button onclick="startMatching()">매칭 시작 🎲</button>
+            <button onclick="startMatching()">커피 테이블 배치 🎲</button>
         </div>
     </div>
 
@@ -291,6 +302,9 @@
         </div>
 
     <script>
+        // 랜덤 커피 이모지 리스트
+        const coffeeEmojis = ['☕', '🧋', '🧊', '🧁', '🍩', '🍪'];
+
         function shuffle(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -300,41 +314,40 @@
         }
 
         function startMatching() {
-            const mentorInput = document.getElementById('mentorInput').value;
-            const menteeInput = document.getElementById('menteeInput').value;
+            const seniorInput = document.getElementById('seniorInput').value;
+            const juniorInput = document.getElementById('juniorInput').value;
             const targetSize = parseInt(document.getElementById('groupSize').value);
             const container = document.getElementById('resultContainer');
             
             container.innerHTML = '';
 
-            let mentors = mentorInput.split(/[\s,]+/).filter(name => name.trim() !== '');
-            let mentees = menteeInput.split(/[\s,]+/).filter(name => name.trim() !== '');
+            let seniors = seniorInput.split(/[\s,]+/).filter(name => name.trim() !== '');
+            let juniors = juniorInput.split(/[\s,]+/).filter(name => name.trim() !== '');
 
-            const totalPeople = mentors.length + mentees.length;
+            const totalPeople = seniors.length + juniors.length;
 
             if (totalPeople === 0) {
-                alert("매칭할 멤버의 이름을 입력해주세요!");
+                alert("멤버 이름을 입력해주세요! ☕");
                 return;
             }
 
-            mentors = shuffle(mentors);
-            mentees = shuffle(mentees);
+            seniors = shuffle(seniors);
+            juniors = shuffle(juniors);
 
-            // 전체 인원 대비 생성해야 할 조의 개수 계산
             const numGroups = Math.ceil(totalPeople / targetSize) || 1;
             const groups = Array.from({ length: numGroups }, () => []);
 
             let currentGroupIdx = 0;
 
-            // 1. 멘토를 먼저 각 조에 하나씩 분배 (라운드 로빈)
-            mentors.forEach(mentor => {
-                groups[currentGroupIdx].push({ name: mentor, role: 'mentor' });
+            // 1. 선배를 먼저 각 조에 하나씩 분배 (라운드 로빈)
+            seniors.forEach(senior => {
+                groups[currentGroupIdx].push({ name: senior, role: 'senior' });
                 currentGroupIdx = (currentGroupIdx + 1) % numGroups;
             });
 
-            // 2. 남은 자리에 멘티를 이어서 분배
-            mentees.forEach(mentee => {
-                groups[currentGroupIdx].push({ name: mentee, role: 'mentee' });
+            // 2. 남은 자리에 후배를 이어서 분배
+            juniors.forEach(junior => {
+                groups[currentGroupIdx].push({ name: junior, role: 'junior' });
                 currentGroupIdx = (currentGroupIdx + 1) % numGroups;
             });
 
@@ -345,22 +358,24 @@
                 const card = document.createElement('div');
                 card.className = 'group-card';
                 
-                // 멤버 리스트 HTML 생성 (멘토는 별도 뱃지 추가)
                 const membersHtml = group.map(person => {
-                    if (person.role === 'mentor') {
-                        return `<div class="member-item"><span>${person.name}</span> <span class="role-badge">멘토</span></div>`;
+                    if (person.role === 'senior') {
+                        return `<div class="member-item"><span>${person.name}</span> <span class="role-badge">선배</span></div>`;
                     } else {
                         return `<div class="member-item"><span>${person.name}</span></div>`;
                     }
                 }).join('');
 
+                // 카드 앞면에 들어갈 랜덤 커피 이모지 선택
+                const randomEmoji = coffeeEmojis[Math.floor(Math.random() * coffeeEmojis.length)];
+
                 card.innerHTML = `
                     <div class="card-inner">
                         <div class="card-front">
-                            ☕
+                            ${randomEmoji}
                         </div>
                         <div class="card-back">
-                            <h3>Team ${index + 1}</h3>
+                            <h3>☕ ${index + 1}번째 커피 테이블</h3>
                             <div class="member-list">
                                 ${membersHtml}
                             </div>
