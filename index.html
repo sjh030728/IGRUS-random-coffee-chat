@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IGRUS 커피챗 매칭기 ☕</title>
+    <title>IGRUS 커피챗 매칭기</title>
     <style>
         /* 🎨 IGRUS 라이트 테마 (White & Mint Green) */
         :root {
@@ -260,28 +260,37 @@
         .role-badge {
             font-size: 0.75rem;
             font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 6px;
+        }
+
+        .role-badge.senior {
             background: #E8F8F5;
             color: var(--igrus-mint);
             border: 1px solid rgba(0, 184, 148, 0.3);
-            padding: 2px 7px;
-            border-radius: 6px;
+        }
+
+        .role-badge.junior {
+            background: #F4F6F6;
+            color: var(--text-gray);
+            border: 1px solid #D5DBDB;
         }
     </style>
 </head>
 <body>
 
     <h1>성장과 낭만의 동아리, <span>IGRUS.</span></h1>
-    <div class="subtitle">따뜻한 커피 한 잔과 함께하는 랜덤 커피챗 ☕</div>
+    <div class="subtitle">따뜻한 대화가 오가는 선후배 랜덤 커피챗 ☕</div>
 
     <div class="input-section">
         <div class="input-group">
-            <label>☕ 선배 명단 <span class="label-desc">(조마다 한 명씩 든든하게 배치됩니다)</span></label>
-            <textarea id="seniorInput" placeholder="예: 김선배, 이학번, 박고참"></textarea>
+            <label>🌳 선배 명단</label>
+            <textarea id="seniorInput" placeholder="예: 김선배, 이고참, 박인턴"></textarea>
         </div>
 
         <div class="input-group">
-            <label>🌱 후배 명단 <span class="label-desc">(가벼운 마음으로 수다 떨러 온 부원)</span></label>
-            <textarea id="juniorInput" placeholder="예: 김새내기, 최부원, 정신입, 강뉴비"></textarea>
+            <label>🌱 후배 명단</label>
+            <textarea id="juniorInput" placeholder="예: 최후배, 정신입, 강뉴비"></textarea>
         </div>
         
         <div class="controls">
@@ -302,7 +311,6 @@
         </div>
 
     <script>
-        // 랜덤 커피 이모지 리스트
         const coffeeEmojis = ['☕', '🧋', '🧊', '🧁', '🍩', '🍪'];
 
         function shuffle(array) {
@@ -339,13 +347,13 @@
 
             let currentGroupIdx = 0;
 
-            // 1. 선배를 먼저 각 조에 하나씩 분배 (라운드 로빈)
+            // 1. 선배(나무)를 먼저 각 조에 하나씩 분배 (라운드 로빈)
             seniors.forEach(senior => {
                 groups[currentGroupIdx].push({ name: senior, role: 'senior' });
                 currentGroupIdx = (currentGroupIdx + 1) % numGroups;
             });
 
-            // 2. 남은 자리에 후배를 이어서 분배
+            // 2. 남은 자리에 후배(새싹)를 이어서 분배
             juniors.forEach(junior => {
                 groups[currentGroupIdx].push({ name: junior, role: 'junior' });
                 currentGroupIdx = (currentGroupIdx + 1) % numGroups;
@@ -360,13 +368,12 @@
                 
                 const membersHtml = group.map(person => {
                     if (person.role === 'senior') {
-                        return `<div class="member-item"><span>${person.name}</span> <span class="role-badge">선배</span></div>`;
+                        return `<div class="member-item"><span>${person.name}</span> <span class="role-badge senior">🌳 선배</span></div>`;
                     } else {
-                        return `<div class="member-item"><span>${person.name}</span></div>`;
+                        return `<div class="member-item"><span>${person.name}</span> <span class="role-badge junior">🌱 후배</span></div>`;
                     }
                 }).join('');
 
-                // 카드 앞면에 들어갈 랜덤 커피 이모지 선택
                 const randomEmoji = coffeeEmojis[Math.floor(Math.random() * coffeeEmojis.length)];
 
                 card.innerHTML = `
